@@ -1,22 +1,22 @@
 {
-  "name": "openhema",
+  "name": "api",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/openhema/src",
+  "sourceRoot": "apps/api/src",
   "projectType": "application",
   "tags": [],
   "targets": {
-    "serve": {
+    "dev": {
       "executor": "@nx/js:node",
       "defaultConfiguration": "development",
       "options": {
-        "buildTarget": "openhema:build"
+        "buildTarget": "api:build"
       },
       "configurations": {
         "development": {
-          "buildTarget": "openhema:build:development"
+          "buildTarget": "api:build:development"
         },
         "production": {
-          "buildTarget": "openhema:build:production"
+          "buildTarget": "api:build:production"
         }
       }
     }
