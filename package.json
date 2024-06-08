@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
+    "dev api": "nx dev api",
+    "dev front": "nx dev client",
     "dev": "nx run-many -t dev",
     "test": "nx run-many -t test",
     "build": "nx run-many -t build"
@@ -10,8 +12,10 @@
   "private": true,
   "dependencies": {
     "@nestjs/common": "^10.0.2",
+    "@nestjs/config": "^3.2.2",
     "@nestjs/core": "^10.0.2",
     "@nestjs/platform-express": "^10.0.2",
+    "@prisma/client": "^5.14.0",
     "axios": "^1.6.0",
     "next": "14.2.3",
     "react": "18.3.1",
@@ -63,6 +67,7 @@
     "jest-environment-node": "^29.4.1",
     "nx": "19.1.1",
     "prettier": "^2.6.2",
+    "prisma": "^5.14.0",
     "sass": "1.62.1",
     "ts-jest": "^29.1.0",
     "ts-node": "10.9.1",

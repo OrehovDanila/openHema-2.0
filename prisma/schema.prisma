@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  login    String @unique
+  password String
+}
+
+model Nomination {
+  id             Int       @id @default(autoincrement())
+  pools          Pool[]    @relation(name: "NominationToPool")
+  fighters       Fighter[] @relation(name: "FighterToNomination")
+  nominationName String
+}
+
+model Pool {
+  id           Int        @id @default(autoincrement())
+  fights       Fight[]    @relation(name: "FightToPool")
+  fighters     Fighter[]  @relation(name: "FightersInPool")
+  nominationId Int
+  nomination   Nomination @relation(name: "NominationToPool", fields: [nominationId], references: [id])
+  type         poolTypes
+  status       PoolStatus @default(New)
+  poolName     String
+}
+
+model Fighter {
+  id          Int          @id @default(autoincrement())
+  name        String       @unique
+  club        String
+  rating      Int
+  pools       Pool[]       @relation(name: "FightersInPool")
+  nominations Nomination[] @relation(name: "FighterToNomination")
+  fights      Fight[]      @relation(name: "fighter")
+}
+
+model Fight {
+  id         Int         @id @default(autoincrement())
+  status     FightStatus @default(New)
+  score1     Int
+  score2     Int
+  fighter    Fighter[]   @relation(name: "fighter")
+  fighter1Id Int
+  fighter2Id Int
+  poolId     Int
+  pool       Pool        @relation(name: "FightToPool", fields: [poolId], references: [id])
+  strip      Strip[]     @relation(name: "FightToStrip")
+}
+
+model Strip {
+  id          Int     @id @default(autoincrement())
+  currentFight Int
+  nextFight   Int?
+  Fight       Fight[] @relation(name: "FightToStrip")
+}
+
+model TopAppSettings {
+  id                Int     @id @default(autoincrement())
+  championsshipName String?
+}
+
+enum FightStatus {
+  New
+  Pending
+  InProgress
+  Ended
+}
+
+enum PoolStatus {
+  New
+  InProgress
+  Ended
+}
+
+enum poolTypes {
+  Group
+  LowerBracket
+  UpperBracket
+  Swiss
+}
